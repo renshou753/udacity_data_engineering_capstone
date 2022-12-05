@@ -1,0 +1,18 @@
+services:
+
+  postgres:
+    build:
+      context: ./db/init
+      dockerfile: Dockerfile
+    ports:
+      - "5434:5432"
+    container_name: capstone
+    environment:
+      POSTGRES_USER: capstone
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: capstone
+
+  adminer:
+    image: adminer
+    ports:
+      - 8082:8080
