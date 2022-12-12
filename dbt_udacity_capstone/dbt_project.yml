@@ -36,3 +36,19 @@ models:
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+    src:
+      +enabled: true
+      +materialized: view
+    stg:
+      +enabled: true
+      +materialized: table
+      +schema: staging
+    warehouse:
+      +enabled: true
+      +materialized: table
+      +schema: dwh
+    mart:
+      +enabled: true
+      +materialized: table
+      +schema: mart
+
