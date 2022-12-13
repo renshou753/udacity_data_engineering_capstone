@@ -1,0 +1,299 @@
+
+version: 2
+
+models:
+  - name: dim_addr
+    description: "address dimension"
+    columns:
+      - name: id
+        description: "The hashed primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: code
+        description: "Address code"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Full address name"
+        tests:
+          - not_null
+
+  - name: dim_city
+    description: "city dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: city
+        description: "city name"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_country
+    description: "country dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: country_code
+        description: "country code"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "country name"
+        tests:
+          - not_null
+
+  - name: dim_date
+    description: "date dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: full_date
+        description: "date full name"
+        tests:
+          - unique
+          - not_null
+      - name: year
+        description: "year"
+        tests:
+          - not_null
+      - name: year_week
+        description: "year week"
+        tests:
+          - not_null
+      - name: fiscal_qtr
+        description: "fiscal quarter"
+        tests:
+          - not_null
+      - name: month
+        description: "month"
+        tests:
+          - not_null
+
+  - name: dim_gender
+    description: "gender dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "gender name"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_mode
+    description: "mode dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: code
+        description: "mode code"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "mode name"
+        tests:
+          - not_null
+
+  - name: dim_port
+    description: "port dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: code
+        description: "port code"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "port name"
+        tests:
+          - not_null
+
+  - name: dim_race
+    description: "race dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: race
+        description: "race name"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_state
+    description: "state dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: state
+        description: "state name"
+        tests:
+          - unique
+          - not_null
+      - name: state_code
+        description: "state code"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_visa
+    description: "visa dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: code
+        description: "visa code"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "visa name"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_visatype
+    description: "state dimension"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "visatype name"
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_demographic
+    description: "US city demographic fact"
+    columns:
+      - name: city_id
+        description: "fk with dim_city"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_city')
+              field: id
+      - name: race_id
+        description: "fk with dim_race"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_race')
+              field: id
+      - name: state_id
+        description: "fk with dim_state"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_state')
+              field: id
+
+  - name: fct_immigration
+    description: "I94 immigration fact"
+    columns:
+      - name: id
+        description: "primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: cit_id
+        description: "fk with dim_country"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_country')
+              field: id
+      - name: res_id
+        description: "fk with dim_country"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_country')
+              field: id
+      - name: port_id
+        description: "fk with dim_port"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_port')
+              field: id
+      - name: address_id
+        description: "fk with dim_addr"
+        tests:
+          - relationships:
+              to: ref('dim_addr')
+              field: id
+      - name: arrdate_id
+        description: "fk with dim_date"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: id
+      - name: depdate_id
+        description: "fk with dim_date"
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: id
+      - name: mode_id
+        description: "fk with dim_mode"
+        tests:
+          - relationships:
+              to: ref('dim_mode')
+              field: id
+      - name: visa_id
+        description: "fk with dim_visa"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_visa')
+              field: id
+      - name: gender_id
+        description: "fk with dim_gender"
+        tests:
+          - relationships:
+              to: ref('dim_gender')
+              field: id
+      - name: visatype_id
+        description: "fk with dim_visatype"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_visatype')
+              field: id
